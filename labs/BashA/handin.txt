@@ -25,4 +25,64 @@ Problem 7:
 2) mv handin.txt ../handin2.txt
 
 Problem 8:
+1) I got the recent commands that I've entered, least recent on the top and most recent on the bottom. (I copied only the bottom part.)
+...   
+  982  mv Lab1/ BashA
+  983  ls
+  984  cd BashA/
+  985  ls
+  986  gedit handin.txt &
+  987  cd labs/../../csci208/labs/BashA/..
+  988  cd labs/../../csci208/Labs/BashA/..
+  989  cd ..
+  990  cd labs/../../csci208/Labs/BashA/..
+  991  cd Labs/../../csci208/Labs/BashA/..
+  992  cd ..
+  993  mv Labs/ labs
+  994  ls
+  995  cd labs/
+  996  cd ..
+  997  cd labs/../../csci208/labs/BashA/..
+  998  gedit BashA/handin.txt 
+  999  gedit BashA/handin.txt &
+ 1000  logout
+ 1001  history
+2) !c
 
+Problem 9: 
+1) drwx--x--x
+2) -rw-------
+3) drwx--x--x
+4) --wxrwx--x
+
+Problem 10:
+1) chmod u-rw Alpha
+   chmod g+r Alpha
+   chmod o+w Alpha
+2) No, I don't get permissions to read and write.
+3) Yes, my friend can write to my Alpha file.
+
+Problem 11: 5 differences total. 
+   change, 
+   add/delete,
+   change, 
+   change, 
+   change.
+
+Problem 12: 
+   diff example1.txt example2.txt > diffs
+   ls >> diffs
+
+Problem 13: cat example1.txt example2.txt > more.txt
+
+Problem 14:
+1) alias print='a2ps'
+2) rm -i
+The actually command prompt user for confirmation before every removal.
+3) /usr/lib64/ccache/gcc
+
+Problem 15:
+tar -cjvf csci203.tbz csci203
+tar -cjvf csci204.tbz csci204
+tar -cjvf csci205.tbz csci205
+tar -cjvf csci206.tbz csci206
