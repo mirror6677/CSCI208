@@ -1,0 +1,28 @@
+Bash Lab, csci208, 2018
+Jingya Wu
+
+Problem 2: /home/accounts/student/j/jw057/csci208/Labs/Lab1
+
+Problem 3: 
+1) student
+2) last modified
+
+Problem 4: labs
+
+Problem 5:
+1) cp handin.txt copy.txt
+2) cp csci208/labs/BashA/handin.txt handin_copy.txt
+3) cp csci208/labs/BashA/handin.txt ./handin_copy.txt
+4) cp labs/BashA/handin.txt ~/handin_copy.txt
+5) cp labs/BashA/handin.txt ../handin_copy.txt
+
+Problem 6:
+1) rm handin_extra.txt
+2) rm -rf labs_extra
+
+Problem 7:
+1) mv handin.txt handin2.txt
+2) mv handin.txt ../handin2.txt
+
+Problem 8:
+
