@@ -1,0 +1,22 @@
+#!/bin/bash
+
+if [[ ${#} != 4 ]]; then
+  echo Wrong number of arguments
+else
+  answer=(`python helper.py ${2}`)
+
+  if [ ! -d $4 ]; then
+    mkdir $4
+  fi
+
+  for file in *.$3; do
+    #echo ${file}
+
+    for i in "${answer[@]}"; do
+      ${1} ${i} ${file} >> ${4}/${file}
+    done
+
+  done
+
+fi
+exit
