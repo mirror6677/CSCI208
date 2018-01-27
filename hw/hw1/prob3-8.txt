@@ -1,0 +1,17 @@
+3. What is one advantage of a compiler (over an interpreter)?
+Compiled program generally runs faster than interpreted program.
+
+4. What is one advantage of an interpreter (over a compiler)?
+Interpreted program is generally smaller and more portable than compiled program.
+
+5. What is Just-In-Time compilation good for?
+Just-In-Time (JIT) is good for gaining the benefits of both static compilation and interpretation. These benefits include: faster, smaller, more portable, and access to run-time information.
+
+6. Explain the tradeoff between space and time for compiled/JIT-compiled/Interpreted languages.
+Compiled languages are faster but take more space than interpreted languages; interpreted languages take less space but run slower than compiled languages. JIT-compilation is trying to produce mixed code that makes it faster than interpreted languages and also smaller than the compiled languages (balanced the space and time tradeoff).
+
+7. Summarize the benefits of JIT compilation for Java.
+Before adopting JIT compilation, Java programs must all be converted into bytecode and then interpreted, which was extremely slow. An optimization is achieved at run time by having an interpreter and JIT compiler executing concurrently, and thus the performance of Java programs is dramatically improved.
+
+8. What is a concurrent JIT compiler?
+A concurrent JIT compiler can operate as the program executes concurrently: in a separate thread or process, or even on a different processor.
