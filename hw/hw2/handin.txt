@@ -1,0 +1,23 @@
+1. Write the formal type for the following Java code.
+  1) i : int
+  2) arr : NULL + Ref(int -> int)
+  3) Color = Green + Red + Brown + Yellow
+  4) Leaf = (NULL + Ref(Color)) * int
+  5) leaf : NULL + Ref(Leaf)
+  6) MapleTree = float * (NULL + Ref(int -> (NULL + Ref(Leaf))))
+
+2. Explaining familiar type constructors.
+Java supports: enum, cartesian product, array.
+Java does not support: subrange, union.
+Java array is indexed by integers, and the indices start at 0.
+Java enum is not ordinal because you cannot compare if one is smaller or greater than the other. However, one can access their order by using the .ordinal() method.
+Java doesn't support union type constructor.
+
+3. Using an unfamiliar Type Constructor in a language you should already know.
+Python Enum class is not ordinal (cannot do '<' or '>' comparisons on them), but is comparable (can do '=' and '!=' on them). One can make python enum ordinal by defining the methods '__ge__', '__gt__', '__le__', '__lt__' in the enum class. Python Enum is not truly integer, though one can access its integer value by its value attribute. Though there exists different variations of the basic Enum class that supports truly integer values and ordinal comparisons. Special fields and functions that I explored are the function list() and the field '__members__'. Passing a enum class to list() will generate an ordered list of all values in the enum class; accessing the field '__member__' of an enum class will return an ordered dictionary mapping names to members.
+
+4. Recognizing Type Constructors when you see them in an unfamiliar language.
+  1) composite1 is an enum constructor. Enum is ordinal because you can do comparisons (woof < bark).
+  2) composite2 is a cartesian product constructor. Attribute values can be accessed from outside.
+  3) composite3 is a subrange constructor. An instance of the subrange type can only take on values that's within the range.
+  4) composite4 is a union constructor. Union is disjoint because printing the type of 'family' gives 'Cat'.
