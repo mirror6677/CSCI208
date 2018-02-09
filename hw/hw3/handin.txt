@@ -1,0 +1,15 @@
+1. I think Java falls in between strongly typed and weakly typed, depending on what definitions one uses. In prob1.java, I tested implicit coersions, and sometimes it works and sometimes it doesn't, depending on whether some information will be lost or not. In the lecture notes, strongly typed language is defined as "no implicit coersion will be allowed", thus Java does not fall inside this category; weakly typed language is defined as "implicitly converts (or casts) types when used", but Java does not always allow conversion and thus does not belongs to this category either. Hence, I think that Java falls somewhere in between strongly and weakly typed on the scale. Look for evidence in prob1.java
+
+2. See prob2.py
+
+3. See prob3.java
+
+4. See prob4.java
+
+5. FlyingToaster is strongly typed, because it does not support implicit coersion (eg. 4.3 + 3 without explicitly coerse the int 3 to a float).
+
+6. (a) Statically typed vs. dynamically typed
+   (b) Statically typed: Everything gets a type. Both the variables and the assigned values carry a type. The type must match. Type checking is done at compile time.
+   Dynamically typed: Value carries the type. The variable itself (in our case x) does not carry the type. Type checking is done at runtime.
+   (c) Foozle uses dynamically typed.
+   (d) Banana uses statically typed.
