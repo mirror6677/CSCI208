@@ -58,17 +58,20 @@ public:
       RotateList<B,C,A> * n2 = nullptr;
       RotateList<C,A,B> * n3 = nullptr;
 
+      if (i % 3 == 1) {
+        n1 = new RotateList<A,B,C>(t1, nullptr);
+        i = i - 1;
+      }
+      else if (i % 3 == 2) {
+        n2 = new RotateList<B,C,A>(t2, nullptr);
+        n1 = new RotateList<A,B,C>(t1, n2);
+        i = i - 2;
+      }
+
       int j;
-      for (j = 3; j < i; j += 3) {
+      for (j = 0; j < i; j += 3) {
         n3 = new RotateList<C,A,B>(t3, n1);
         n2 = new RotateList<B,C,A>(t2, n3);
-        n1 = new RotateList<A,B,C>(t1, n2);
-      }
-      if (j == i + 1) {
-        n2 = new RotateList<B,C,A>(t2, n3);
-        n1 = new RotateList<A,B,C>(t1, n2);
-      }
-      else if (j == i + 2) {
         n1 = new RotateList<A,B,C>(t1, n2);
       }
       return n1;
