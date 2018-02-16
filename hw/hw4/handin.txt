@@ -1,0 +1,70 @@
+1. double a = 4;
+infer 4 int
+infer a double
+equiv int double (FAILS)
+  coerse int -> double (SUCCESS)
+
+2. int b = 9 + 4 * 6;
+infer 4 int
+infer 6 int
+check * int int
+  equiv int int (SUCCESS)
+  equiv int int (SUCCESS)
+infer * returns int
+infer 9 int
+check + int int
+  equiv int int (SUCCESS)
+  equiv int int (SUCCESS)
+infer + returns int
+infer b int
+equiv int int (SUCCESS)
+
+3. 3 + 4.5 + "hi";
+infer 3 int
+infer 4.5 float
+check + int int
+  equiv int int (SUCCESS)
+  equiv float int (FAILS)
+    coerse float -> int (FAILS)
+check + float float
+  equiv int float (FAILS)
+    coerse int -> float (SUCCESS)
+  equiv float float (SUCCESS)
+infer + returns float
+infer "hi" String
+check + int int
+  equiv String int (FAILS)
+    coerse String -> int (FAILS)
+  equiv float int (FAILS)
+    coerse float -> int (FAILS)
+check + float float
+  equiv String float (FAILS)
+    coerse String -> float (FAILS)
+  equiv float float (SUCCESS)
+check + String String
+  equiv String String (SUCCESS)
+  equiv float String (FAILS)
+    coerse float -> String (FAILS)
+(ERROR!)
+
+4. int x = 3.4;
+infer 3.4 float
+infer x int
+equiv float int (FAILS)
+  coerse float -> int (FAILS)
+(ERROR!)
+
+5. What is type checking good for? (one reason)
+Type checking can prevent nonsense operations that are resulted because wrong types were assigned.
+
+6. Bjarne Stroustrup created and developed the widely used C++ programming language. Yes, he is knowledgeable enough that his article is an authoritative source of information.
+
+7. The use of a static type system improves code quality by reducing the number of errors and moves checking to compile time. (Page 49)
+
+8. Linked list triples the memory needed comparing to vector (array), thus when adding to the middle of a linked list we need to traverse through more memory than adding to an array. Moreover, linked list nodes are usually separate objects that are scattered in memory, implying that when we traverse the list to find a position for insertion or deletion, we randomly access memory locations in the area that stored the list, causing cache misses. On the other hand, elements in an array are stored sequentially in memory. (Page 50)
+
+9. No, the author thinks that "only low-level, messy code can be efficient" is a mistaken belief. He gave an example of a C++ linear-algebra library that achieved astounding efficiency because it used a type system that allowed it to eliminate redundant temporaries and apply optimized operations by knowing the fundamental properties of some matrices. (Page 53)
+
+10. Runtime typing makes objects larger because they must carry type information, resolving types at runtime implies extra computation compared to less dynamic alternatives, and optimization is inhibited because interfaces must be able to handle objects of every type, if only to give an error message. (Page 53)
+
+11. Being duck-typed means that an object's suitability is determined by the presence of certain methods and properties (with appropriate meaning), rather than the actualy type of the object. (Taken from Wikipedia page of Duck Typing.) See prob11.py for the python example of duck typing.
