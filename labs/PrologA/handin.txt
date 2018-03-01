@@ -1,0 +1,69 @@
+#### Problem 1 ####
+
+?- pathLen3(a,d).
+true .
+
+?- pathLen3(a,e).
+true .
+
+?- pathLen3(a,b).
+false.
+
+#### Problem 2 ####
+
+?- path(a,d).
+true .
+
+?- path(a,a).
+true .
+
+?- path(g,f).
+false.
+
+#### Problem 3 ####
+
+?- father(yuchen,jingya).
+true.
+
+?- mother(mei,jingya).
+true.
+
+?- son(chenglin,yunong).
+true.
+
+?- daughter(jingya,yuchen).
+true.
+
+?- grandparent(haoyan,jingya).
+true .
+
+?- sibling(yunong,yuchen).
+true .
+
+?- aunt(jun,jingya).
+true .
+
+?- uncle(yunong,jingya).
+true .
+
+?- cousin(chenglin,jingya).
+true .
+
+?- ancestor(yuchen,jingya).
+true .
+
+?- ancestor(peiyi,jingya).
+true .
+
+#### Problem 4 ####
+
+?- mem(X,[]).
+false.
+
+?- mem(1,[1,2]).
+true.
+
+?- mem(X,[1,2]).
+X = 1 ;
+X = 2 ;
+false.
