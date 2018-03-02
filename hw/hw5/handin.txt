@@ -1,0 +1,14 @@
+Problem 1: Copy Constructors
+Please see the files.
+
+Problem 2: Hazards
+consume contains the memory leak hazard. It assigned NULL to tail -> next without freeing the allocated memory on the heap, which will result in memory leak because the heap manager will never get back these pointers to the nodes after they are consumed.
+To fix this hazard we could free the memory allocated for temp after it is consumed. Please see the file fifo.cpp for the fix.
+
+Problem 3: Hazards
+Dangling pointer will appear. free(temp) will free up the memory that temp points to, which is also what tail is currently pointing to. Thus, we'll get a seg fault error when trying to access the memory again through temp or tail.
+
+Problem 4: Hazards and C++ Memory
+head.next is pointing to itself.
+Please see prob4.pdf for the drawing.
+
