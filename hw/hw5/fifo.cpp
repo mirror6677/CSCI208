@@ -29,14 +29,12 @@ void Fifo::produce(int x){
   Node * n = new Node();
   n->x = x;
   if (head == NULL) { // empty fifo
-    cout << x << "empty" << endl;
     head = n;
     tail = n;
     n->previous = NULL;
     n->next = NULL;
   }
   else { // goes first
-    cout << x << head->x << endl;
     n->previous = NULL;
     n->next = head;
     head->previous = n;
@@ -58,9 +56,6 @@ void Fifo::consume(int v){
       	temp->x -= v;
       	/****************** Point1 *******************/
         free(temp);
-        cout << v << temp->x << endl;
-        cout << v << tail->x << endl;
-        cout << v << head->x << endl;
       	return;
       }
     }else{
@@ -79,7 +74,7 @@ void Fifo::consume(int v){
       	  temp->x -= v;
       	  return;
       	}
-      } 
+      }
     }
   }
 }
@@ -97,7 +92,7 @@ int main() {
   l.produce(5);
   l.consume(4);
   l.produce(7);
-  //printl(l);
+  printl(l);
 
   /*
   l.produce(7); printl(l);
