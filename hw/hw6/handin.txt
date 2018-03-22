@@ -1,0 +1,11 @@
+a. What prints if Eek uses static scope?
+The program will print 5 for x and 9 for y if Eek uses static scope.
+
+b. What prints if Eek uses dynamic scope?
+The program will print 3 for x and 9 for y if Eek uses dynamic scope.
+
+c. Does Java use static or dynamic scope?
+Static
+
+d. Python is dynamically typed. Does that mean it has to also be dynamically scoped?
+No
