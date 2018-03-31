@@ -1,0 +1,22 @@
+########## Problem 1 ##########
+(a) See prob1.pdf page 1
+(b) Will print 8 and 3
+(c) See prob1.pdf page 2
+(d) Will print 2 and 3
+(e) See prob1.pdf page 3
+(f) Will print 2 and 5
+(g) Total of 2 ints are leaked.
+
+########## Problem 2 ##########
+C++ does Pass by Reference for arrays.
+
+########## Problem 3 ##########
+See prob3.cpp
+
+########## Problem 4 ##########
+(a) Will print 4, 4, and 36
+(b) Will print 3, 4, 5, and 48
+(c) side effects
+
+########## Problem 5 ##########
+See prob5.cpp
