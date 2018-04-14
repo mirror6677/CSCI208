@@ -126,3 +126,25 @@ example usage:
 (b) foo :: (Int,Int,Float) -> ([Int] -> (Bool -> Int))
 (c) foo :: Int -> (Char -> (Float -> Bool))
 (d) foo :: (a -> (b -> b)) -> (b -> ([a] -> b))
+
+>--------- problem 5 ---------<
+
+[12,18..]
+
+>--------- problem 6 ---------<
+>
+>prob6 :: [Int]
+>prob6 = map (\x -> 10 ^ (2 * x) - 10 ^ x + 1) [1..]
+
+sample run:
+*Main> take 4 prob6
+[91,9901,999001,99990001]
+
+>--------- problem 7 ---------<
+>
+>prob7 :: [Int]
+>prob7 = [10 ^ (2 * x) - 10 ^ x + 1 | x <- [1..]]
+
+sample run:
+*Main> take 4 prob7
+[91,9901,999001,99990001]
