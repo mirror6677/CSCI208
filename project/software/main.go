@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 	"github.com/yhat/scrape"
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/atom"
@@ -36,7 +38,7 @@ type CourseDetail struct {
 	CCCReq     []string
 	Desc       string
 	Notes      string
-	Linked     []CourseDetail
+	Linked     [][]CourseDetail
 }
 
 // CourseLookup for generating course lookup URL
@@ -63,11 +65,23 @@ func CourseDescURL(subj string, numb string) string {
 	return url
 }
 
-func fetchCourses(l CourseLookup) []Course {
+// FullTextSearchURL that requires department and a query string for course title to constuct full url
+func FullTextSearchURL(l CourseLookup) string {
+	root := "https://www.bannerssb.bucknell.edu/ERPPRD/bwckctlg.p_display_courses/?term_in=201901&call_proc_in=bwckctlg.p_disp_dyn_ctlg&sel_subj=dummy&sel_levl=dummy&sel_schd=dummy&sel_coll=dummy&sel_divs=dummy&sel_dept=dummy&sel_attr=dummy&"
+	url := root + "sel_subj=" + l.Param1 + "&sel_title=" + strings.Title(l.Param2)
+	return url
+}
+
+func fetchCourses(l CourseLookup, chIsFinished chan []Course) {
 	url := CourseLookupURL(l)
 
 	// variable that keeps the result
 	res := []Course{}
+
+	// inform channel when fetchCourses is done
+	defer func() {
+		chIsFinished <- res
+	}()
 
 	// variable that keeps titles of a course
 	titles := make(map[string][]string)
@@ -79,7 +93,7 @@ func fetchCourses(l CourseLookup) []Course {
 	// if url could not be opened, log error message
 	if err != nil || resp.StatusCode != 200 {
 		fmt.Println("err:", err)
-		return []Course{}
+		return
 	}
 
 	matcher := func(n *html.Node) bool {
@@ -137,8 +151,100 @@ func fetchCourses(l CourseLookup) []Course {
 		}
 		i++
 	}
+}
 
-	return res
+func fullTextSearch(l CourseLookup, chIsFinished chan []Course) {
+	url := FullTextSearchURL(l)
+
+	// variable that keeps the result
+	res := []Course{}
+
+	// inform channel when fetchCourses is done
+	defer func() {
+		chIsFinished <- res
+	}()
+
+	// fetch html content
+	resp, _ := http.Get(url)
+	root, err := html.Parse(resp.Body)
+
+	// if url could not be opened, log error message
+	if err != nil || resp.StatusCode != 200 {
+		fmt.Println("err:", err)
+		return
+	}
+
+	matcher := func(n *html.Node) bool {
+		if n.DataAtom == atom.Td {
+			return scrape.Attr(n, "class") == "nttitle"
+		}
+		return false
+	}
+
+	// find all data rows of courses
+	rows := scrape.FindAll(root, matcher)
+
+	for i := 0; i < len(rows); {
+		v := scrape.Text(rows[i])
+
+		course := Course{}
+
+		data := strings.SplitN(v, " - ", 2)
+		course.Department = strings.Split(data[0], " ")[0]
+		course.CrseNum = strings.Split(data[0], " ")[1]
+		course.Title = data[1]
+		if len(course.CrseNum) == 3 {
+			res = append(res, course)
+		}
+		i++
+	}
+}
+
+func checkCourseExist(course Course, chIsFinished chan Course) {
+	url := CourseLookupURL(CourseLookup{LookOpt: "CRS", Param1: course.Department, Param2: course.CrseNum})
+
+	// variable that keeps the result
+	res := Course{}
+
+	// inform channel when fetchCourses is done
+	defer func() {
+		chIsFinished <- res
+	}()
+
+	// fetch html content
+	resp, _ := http.Get(url)
+	root, err := html.Parse(resp.Body)
+
+	// if url could not be opened, log error message
+	if err != nil || resp.StatusCode != 200 {
+		fmt.Println("err:", err)
+		return
+	}
+
+	matcher := func(n *html.Node) bool {
+		if n.DataAtom == atom.Td && n.Parent != nil && n.Parent.Parent != nil && n.Parent.Parent.Parent != nil {
+			return scrape.Attr(n.Parent.Parent.Parent, "id") == "coursetable"
+		}
+		return false
+	}
+
+	// find all data rows of courses
+	rows := scrape.FindAll(root, matcher)
+
+	for i := 0; i < len(rows); {
+		v := strings.TrimSpace(scrape.Text(rows[i]))
+		if _, err := strconv.Atoi(v); err == nil && len(v) == 5 {
+			// course found
+			i += 2
+			v = strings.TrimSpace(scrape.Text(rows[i]))
+
+			if v == course.Title {
+				res = course
+				break
+			}
+		}
+		i++
+	}
 }
 
 func fetchCourseDetail(subj string, numb string, title string) []CourseDetail {
@@ -151,7 +257,7 @@ func fetchCourseDetail(subj string, numb string, title string) []CourseDetail {
 
 	// initialize desc and linked courses
 	desc := ""
-	linked := []CourseDetail{}
+	linked := [][]CourseDetail{}
 
 	if err == nil && resp.StatusCode == 200 {
 		// description is the first td tag with class ntdefault
@@ -185,6 +291,8 @@ func fetchCourseDetail(subj string, numb string, title string) []CourseDetail {
 			// join all linked courses with '\n'
 			if start != 0 && end != 0 {
 				l = strings.Join(s[start+1:end], "\n")
+			} else if start != 0 {
+				l = strings.Join(s[start+1:], "\n")
 			}
 
 			return strings.TrimSpace(s[0]) + "\n" + strings.TrimSpace(l)
@@ -203,7 +311,7 @@ func fetchCourseDetail(subj string, numb string, title string) []CourseDetail {
 						if cc := strings.Split(c, " "); len(cc) == 2 {
 							// recursively fetch all linked courses
 							// TODO: fetch courses using go routine
-							linked = append(linked, fetchCourseDetail(cc[0], cc[1], "")...)
+							linked = append(linked, fetchCourseDetail(cc[0], cc[1], ""))
 						}
 					}
 					i++
@@ -240,11 +348,12 @@ func fetchCourseDetail(subj string, numb string, title string) []CourseDetail {
 	course := CourseDetail{}
 
 	for i := 0; i < len(rows); {
-		v := scrape.Text(rows[i])
+		v := strings.TrimSpace(scrape.Text(rows[i]))
 		if _, err := strconv.Atoi(v); err == nil && len(v) == 5 {
 			// reset course
 			course = CourseDetail{}
 			course.Desc = desc
+			course.CRN = v
 
 			// next entry for course number
 			i++
@@ -261,7 +370,18 @@ func fetchCourseDetail(subj string, numb string, title string) []CourseDetail {
 
 			// next entry for time
 			i++
-			v = strings.TrimSpace(scrape.Text(rows[i]))
+			joiner := func(s []string) string {
+				n := 0
+				for i := range s {
+					trimmed := strings.TrimSpace(s[i])
+					if trimmed != "" {
+						s[n] = trimmed
+						n++
+					}
+				}
+				return strings.Join(s[:n], "\n")
+			}
+			v = strings.TrimSpace(scrape.TextJoin(rows[i], joiner))
 			course.Time = v
 
 			// next entry for room
@@ -327,16 +447,70 @@ func SearchCourses(w http.ResponseWriter, r *http.Request) {
 		crseNum = query[1]
 	}
 
-	if _, err := strconv.Atoi(crseNum); err == nil && len(department) == 4 {
+	courses := []Course{}
+
+	if len(crseNum) == 0 && len(department) == 4 {
+		// lookup courses in the department from 0xx to 6xx and for CCC requirement concurrently
+		chIsFinished := make(chan []Course)
+
+		for i := 0; i < 7; {
+			// fetch department courses ixx
+			go fetchCourses(CourseLookup{LookOpt: "CRS", Param1: department, Param2: strconv.Itoa(i)}, chIsFinished)
+			i++
+		}
+
+		// fetch courses for CCC requirement
+		go fetchCourses(CourseLookup{LookOpt: "REQ2", Param1: department}, chIsFinished)
+
+		courses = []Course{}
+		for i := 0; i < 8; {
+			c := <-chIsFinished
+			courses = append(courses, c...)
+			i++
+		}
+
+	} else if _, err := strconv.Atoi(crseNum); err == nil && len(department) == 4 {
 		// fetch courses by department and course number
-		courses := fetchCourses(CourseLookup{LookOpt: "CRS", Param1: department, Param2: crseNum})
+		chIsFinished := make(chan []Course)
+
+		go fetchCourses(CourseLookup{LookOpt: "CRS", Param1: department, Param2: crseNum}, chIsFinished)
+		courses = <-chIsFinished
+
+	}
+
+	if len(courses) == 0 && len(strings.Join(query, "")) > 1 {
+		// do a full text search in course titles no matches were found
+		chIsFinished := make(chan []Course)
+
+		for _, d := range DepartmentList {
+			// search for title in departments concurrently
+			go fullTextSearch(CourseLookup{LookOpt: "FTS", Param1: d, Param2: strings.Join(query, " ")}, chIsFinished)
+		}
+
+		res := []Course{}
+		for i := 0; i < len(DepartmentList); {
+			c := <-chIsFinished
+			res = append(res, c...)
+			i++
+		}
+
+		chIsChecked := make(chan Course)
+		// check if the course exist concurrently
+		for _, c := range res {
+			go checkCourseExist(c, chIsChecked)
+		}
+
+		for i := 0; i < len(res); {
+			c := <-chIsChecked
+			if len(c.Department) > 0 && len(c.CrseNum) > 0 && len(c.Title) > 0 {
+				courses = append(courses, c)
+			}
+			i++
+		}
 
 		json.NewEncoder(w).Encode(courses)
 
-	} else if len(crseNum) == 0 && len(department) == 4 {
-		// fetch courses by department only
-		courses := fetchCourses(CourseLookup{LookOpt: "DPT", Param1: department, Param2: ""})
-
+	} else {
 		json.NewEncoder(w).Encode(courses)
 	}
 }
@@ -353,10 +527,96 @@ func GetCourse(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(courses)
 }
 
+// Welcome prints a welcome message and simple instructions for using this API
+func Welcome(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Welcome to AntSchedule API! \nPlease use /searchCourses/{query} for course autocomplete and courseDetail/{dept}/{crseNum}/[{title}] for fetching course details.")
+}
+
 func main() {
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		// log.Fatal("$PORT must be set")
+		// for development
+		port = "8080"
+	}
+
 	router := mux.NewRouter()
+	handler := cors.Default().Handler(router)
+	router.HandleFunc("/", Welcome).Methods("GET")
 	router.HandleFunc("/searchCourses/{query}", SearchCourses).Methods("GET")
 	router.HandleFunc("/courseDetail/{dept}/{crseNum}", GetCourse).Methods("GET")
 	router.HandleFunc("/courseDetail/{dept}/{crseNum}/{title}", GetCourse).Methods("GET")
-	log.Fatal(http.ListenAndServe(":8080", router))
+	router.HandleFunc("/searchCourses/", SearchCourses).Methods("GET")
+	log.Fatal(http.ListenAndServe(":"+port, handler))
+}
+
+// DepartmentList for course search
+var DepartmentList = []string{
+	"ACFM",
+	"AFST",
+	"ANBE",
+	"ANTH",
+	"ARBC",
+	"ARTH",
+	"ARST",
+	"ASTR",
+	"BIOL",
+	"BMEG",
+	"CHEG",
+	"CHEM",
+	"CHIN",
+	"CEEG",
+	"CLAS",
+	"CSCI",
+	"ENCW",
+	"DANC",
+	"EAST",
+	"ECON",
+	"EDUC",
+	"ECEG",
+	"ENGR",
+	"ENGL",
+	"ENST",
+	"ENFS",
+	"FOUN",
+	"FREN",
+	"GEOG",
+	"GEOL",
+	"GRMN",
+	"GLBM",
+	"GREK",
+	"HEBR",
+	"HIST",
+	"HUMN",
+	"IDPT",
+	"IREL",
+	"ITAL",
+	"JAPN",
+	"LATN",
+	"LAMS",
+	"LEGL",
+	"LING",
+	"ENLS",
+	"MGMT",
+	"MSUS",
+	"MIDE",
+	"MATH",
+	"MECH",
+	"MILS",
+	"MUSC",
+	"NEUR",
+	"PHIL",
+	"PHYS",
+	"POLS",
+	"PYSC",
+	"RELI",
+	"RESC",
+	"RUSS",
+	"SIGN",
+	"SOCI",
+	"SPAN",
+	"THEA",
+	"UNIV",
+	"WMST",
 }
