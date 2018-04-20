@@ -1,0 +1,96 @@
+1. Associativity in BNF
+(a) Left associativity
+(b) Ambiguous associativity
+(c) Right associativity
+
+2. Precedence in BNF
+'(' and ')' > '&' > '!' == '$' > '@' > '%'
+
+3. BNF, Precedence, and Associativity
+exp1 ::- exp1 ’%’ exp2 | exp1 ’$’ exp2 | exp2
+exp2 ::- exp2 ’&’ exp3 | exp3
+exp3 ::- exp4 ’#’ exp3 | exp4 ’@’ exp3 | exp4
+exp4 ::- ’(’ exp1 ’)’ | NUMBER
+
+4. Associativity in Parse Trees
+Right associativity
+
+5. Associativity in Parse Trees
+          ______e3______ 
+   _____e3_____  !      e4
+ e3      !     e4       e5
+ e4            e5       NUM
+ e5            NUM      9
+NUM            2
+  7
+
+6. Precedence in Parse Trees
+'@' > '!'
+
+7. Precedence in Parse Trees
+  ______e1______
+e1      %       e2
+e2              e3
+e3        ______e4______
+e4      e4      &       e5
+e5      e5              NUM
+NUM     NUM             3
+7       8
+
+8. x = y + 3;
+       stmt
+  ____assign-stmt____
+ID       =       exp ;
+ x          _____exp2_____
+        exp2     addop    term
+        term     +        factor
+      factor              NUM
+          ID              3
+           y
+
+9. if (x < 2) then y = 4; endif
+                                 stmt
+          ______________________if-stmt______________________
+        IF (    _____exp_____    )THEN          stmt         ENDIF
+            exp2    relop    exp2          ____assign-stmt____
+            term      <      term        ID       =       exp ;
+          factor             factor      y                exp2
+              ID             NUM                          term
+               x             2                            factor
+                                                          NUM
+                                                          4
+
+10. No, this language doesn't suffer from the dangling else problem, because if uses the endif statement to close an if statement.
+
+11.     if (x>2) then
+          if (y+2==6) then
+            return 3*y; 
+          else {
+            z=y+2; 
+            return ;
+          }
+          endif
+        else
+          return (8+4)*x;
+        endif
+
+  _______________________________________________________________if-stmt_______________________________________________________________
+IF (  ___exp___  ) THEN                                      stmt                                      ELSE                 stmt       ENDIF
+  exp2  relop  exp2        _________________________________if-stmt_____________________________________                __ret-stmt__
+  term    >    term      IF ( _____exp_____ ) THEN            stmt            ELSE         stmt         ENDIF     RETURN     exp    ;
+factor         factor    _exp2__    relop  exp2         ____ret-stmt____      __________comp-stmt__________                 exp2
+    ID         NUM   exp2 addop term  ==   term   RETURN       exp      ;    {         _stmt-list_         }              __term_____
+     x         2     term   +   factor     factor              exp2                stmt           stmt-list           term     mulop factor
+                   factor       NUM        NUM               __term__          _assign-stmt__       stmt          __factor___    *   ID
+                       ID       2          6             term  mulop factor  ID   =    exp   ;    _ret-stmt_     (    exp    )       x
+                        y                              factor    *   ID       z      __exp2_     RETURN     ;       __exp2_
+                                                          NUM        y           exp2 addop term                exp2 addop term
+                                                                                 term   +   factor              term   +   factor
+                                                                               factor       NUM               factor       NUM
+                                                                                   ID       2                    NUM       4
+                                                                                   y                               8
+
+Note: A screenshot of the above tree is attached in prob11.pdf. Please used it if you can't see the full tree structure from this txt file.
+
+
+
