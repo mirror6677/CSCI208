@@ -25,7 +25,15 @@ go run main.go
 ```
 
 * Open a browser and go to `localhost:8080`
-* Follow the video demo below to access main features
+
+## How to Use
+This API is currently hosted at: [https://antschedule-api.herokuapp.com](https://antschedule-api.herokuapp.com), and can be accessed through the following endpoints.
+* `/searchCourses/{query}`
+    * returns a list of courses with basic information (department, course number, title) that matches the query
+    * query is a string that can be a department, department + course number, CCC requirement, or part of a course title
+* `/courseDetail/{department}/{number}/[{title}]`
+    * returns a list of sections of the course being searched with detailed information (department, course number, section number, title, time, room, instructor, seats, CCC requirements, description, notes, linked lab/recitation/problem sections)
+    * department is a department 4-letter code; number is a course number; title is an optional parameter that limits the results to only sections that match the title
 
 ## Video Demo
 [Demo link](https://vimeo.com/267703975)
