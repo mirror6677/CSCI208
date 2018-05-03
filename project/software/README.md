@@ -17,7 +17,7 @@ go get github.com/gorilla/mux github.com/rs/cors github.com/yhat/scrape golang.o
 ```
 
 * Run `main.go`
-* 
+
 ```bash
 go run main.go
 ```
