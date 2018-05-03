@@ -11,13 +11,17 @@ Github repository of the whole application is available at [](https://github.com
 * Put `main.go` inside the go source folder, like this: `~/go/src/project_name/main.go`
 * Change directory into the folder containing `main.go`
 * Install all dependencies by running the following
+
 ```bash
 go get github.com/gorilla/mux github.com/rs/cors github.com/yhat/scrape golang.org/x/net/html golang.org/x/net/html/atom
 ```
+
 * Run `main.go`
+* 
 ```bash
 go run main.go
 ```
+
 * Open a browser and go to `localhost:8080`
 * Follow the video demo below to access main features
 
