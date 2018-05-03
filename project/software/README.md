@@ -4,7 +4,7 @@ Backend REST API implemented in Go to support the course scheduling web applicat
 Github repository of the whole application is available at: [https://github.com/mirror6677/AntSchedule](https://github.com/mirror6677/AntSchedule)
 
 ## Key Features
-* Web scaper that retrieves course data by using channels and Goroutines to concurrently fetch multiple Bucknell bannerweb sites at the same time
+* Web scaper that retrieves course data by using channels and Goroutines to concurrently fetch and parse multiple Bucknell bannerweb sites at the same time
 * Supports courses search autocomplete by department, course number, CCC Requirements, course title, and more to come
 * Supports course detail queries (CRN, meeting time, room, instructor, description, etc) for one course at a time
 * Course detail includes information about all linked courses (Labs, Recitations, Problem Sessions) so that users will not need to know what linked courses they need to add
