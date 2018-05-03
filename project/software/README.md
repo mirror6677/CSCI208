@@ -7,6 +7,7 @@ Github repository of the whole application is available at: [https://github.com/
 * Web scaper that retrieves course data by using channels and Goroutines to concurrently fetch multiple Bucknell bannerweb sites at the same time
 * Supports courses search autocomplete by department, course number, CCC Requirements, course title, and more to come
 * Supports course detail queries (CRN, meeting time, room, instructor, description, etc) for one course at a time
+* Course detail includes information about all linked courses (Labs, Recitations, Problem Sessions) so that users will not need to know what linked courses they need to add
 
 ## How to Run
 * Put `main.go` inside the go source folder, like this: `~/go/src/project_name/main.go`
