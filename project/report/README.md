@@ -50,7 +50,10 @@ From the Types section in the Go Programming Language Specification [[1]](https:
 
 - A string type represents the set of string values. A string value is a (possibly empty) sequence of bytes. Strings are immutable: once created, it is impossible to change the contents of a string. The predeclared string type is `string`.
 - An error type is a primitive (or predeclared) type that is defined as [[2]](https://golang.org/ref/spec#Errors)
-      type error interface { Error() string }
+    
+    ```  
+    type error interface { Error() string }
+    ```
 
 The following program shows the memory size of each of these primitive types:
 ```go
