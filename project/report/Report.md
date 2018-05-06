@@ -18,8 +18,8 @@ func main() {
 ## Paradigms
 Go is an imperative procedural programming language with some support for object-oriented features. It has states (local variables), loops, and return statements which makes it an imperative language. It also relies on functions and thus it is procedural. Go has types and methods and allows an object- oriented style of programming, but there is no type hierarchy. The concept of “interface” in Go is a more general approach than inheritance. Go also has “structs” (similar to the concept of “classes”), and methods can be defined for any sort of data not restricted to structs.
 
-1. The Go Programming Language Specification (https://golang.org/ref/spec)
-2. The Go Programming Language FAQ (https://golang.org/doc/faq)
+- The Go Programming Language Specification (https://golang.org/ref/spec)
+- The Go Programming Language FAQ (https://golang.org/doc/faq)
 
 ## Background
 
@@ -894,8 +894,8 @@ Higher order function
 
 ## Garbage Collection
 
-Go has a garbage collector. As stated in the official FAQ site of Go [1], concurrency is built into Go, and automatic garbage collection makes concurrent code far easier to write. Implementing garbage collection in a concurrent environment is itself a challenge, but meeting it once rather than in every program helps everyone. The current GC implementation is a parallel mark-and-sweep collector. 
-The garbage collector can be triggered manually, but it blocks the caller (or even the entire program) until the garbage collection is complete [2].
+Go has a garbage collector. As stated in the official FAQ site of Go [[1]](https://golang.org/doc/faq#garbage_collection), concurrency is built into Go, and automatic garbage collection makes concurrent code far easier to write. Implementing garbage collection in a concurrent environment is itself a challenge, but meeting it once rather than in every program helps everyone. The current GC implementation is a parallel mark-and-sweep collector. 
+The garbage collector can be triggered manually, but it blocks the caller (or even the entire program) until the garbage collection is complete [[2]](https://golang.org/pkg/runtime/#GC).
 Here is an example of triggering GC using the runtime builtin library:
 ```go
 // To compile and run: go run garbageCollector.go
@@ -971,4 +971,3 @@ Done
 [2] https://golang.org/ref/spec#Go_statements (The Go Programming Language Specification/Go Statements)
 
 [3] https://golang.org/ref/spec#Channel_types (The Go Programming Language Specification/Channel Types)
-
