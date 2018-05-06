@@ -2,6 +2,25 @@
 
 _Note: to compile and run sample code files included in this report, first make sure that go is installed on your machine, then cd into the directory `code_samples`, and follow the comment at the start of each file._
 
+## Hello World
+```go
+// To compile and run: go run hello.go
+
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Printf("hello, world\n")
+}
+```
+
+## Paradigms
+Go is an imperative procedural programming language with some support for object-oriented features. It has states (local variables), loops, and return statements which makes it an imperative language. It also relies on functions and thus it is procedural. Go has types and methods and allows an object- oriented style of programming, but there is no type hierarchy. The concept of “interface” in Go is a more general approach than inheritance. Go also has “structs” (similar to the concept of “classes”), and methods can be defined for any sort of data not restricted to structs.
+
+1. The Go Programming Language Specification (https://golang.org/ref/spec)
+2. The Go Programming Language FAQ (https://golang.org/doc/faq)
+
 ## Background
 
 As stated in the official FAQ site of Go [[1]](https://golang.org/doc/faq#Origins), the language was started on September 21, 2007 by three researchers at Google — Robert Griesemer, Rob Pike and Ken Thompson. Go became a public open source project on November 10, 2009. Many people from the community have contributed ideas, discussions, and code. Go is a compiled language [[2]](https://golang.org/doc/). The purpose of this language is to combine the ease of programming of an interpreted, dynamically typed language with the efficiency and safety of a statically typed, compiled language.
@@ -97,7 +116,6 @@ func main() {
 }
 ```
 The output should be the same as the following:
-
 ```
 Size of bool is 1
 Size of uint8 is 1
@@ -349,7 +367,6 @@ func main() {
   }
 }
 ```
-
 The output should be the same as the following:
 ```
 # command-line-arguments
