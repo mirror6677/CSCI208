@@ -539,14 +539,14 @@ It turns out that only the `+` operator is allowed on strings.
 ## Operator Precedence and Associativity
 
 As stated in the Go Programming Language Specification [[1]](https://golang.org/ref/spec#Operator_precedence), there are five precedence levels for binary operators. Multiplication operators bind strongest, followed by addition operators, comparison operators, `&&` (logical AND), and finally `||` (logical OR): 
-
-    Precedence    Operator
-    5             *  /  %  <<  >>  &  &^
-    4             +  -  |  ^
-    3             ==  !=  <  <=  >  >=
-    2             &&
-    1             ||
-
+```
+Precedence    Operator
+5             *  /  %  <<  >>  &  &^
+4             +  -  |  ^
+3             ==  !=  <  <=  >  >=
+2             &&
+1             ||
+```
 Binary operators of the same precedence associate from left to right. For instance, `x / y * z` is the same as `(x / y) * z`.
 Here is an example showing the precedence and associativity of operators:
 ```go
