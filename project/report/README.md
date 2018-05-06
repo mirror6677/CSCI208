@@ -19,33 +19,35 @@ From the Types section in the Go Programming Language Specification [[1]](https:
 
 - A boolean type represents the set of Boolean truth values denoted by the predeclared constants `true` and `false`. The predeclared boolean type is `bool`.
 - A numeric type represents sets of integer or floating-point values. The predeclared architecture-independent numeric types are:
-  > `uint8` — the set of all unsigned 8-bit integers (0 to 255)
-  >
-  > `uint16` — the set of all unsigned 16-bit integers (0 to 65535)
-  >
-  > `uint32` — the set of all unsigned 32-bit integers (0 to 4294967295)
-  >
-  > `uint64` — the set of all unsigned 64-bit integers (0 to 18446744073709551615)
-  >
-  > `int8` — the set of all signed 8-bit integers (-128 to 127)
-  >
-  > `int16` — the set of all signed 16-bit integers (-32768 to 32767)
-  >
-  > `int32` — the set of all signed 32-bit integers (-2147483648 to 2147483647)
-  >
-  > `int64` — the set of all signed 64-bit integers (-9223372036854775808 to 9223372036854775807)
-  >
-  > `float32` — the set of all IEEE-754 32-bit floating-point numbers
-  >
-  > `float64` — the set of all IEEE-754 64-bit floating-point numbers
-  >
-  > `complex64` — the set of all complex numbers with float32 real and imaginary parts
-  >
-  > `complex128` — the set of all complex numbers with float64 real and imaginary parts
-  >
-  > `byte` — alias for uint8 
-  >
-  > `rune` — alias for int32
+  
+    > `uint8` — the set of all unsigned 8-bit integers (0 to 255)
+    >
+    > `uint16` — the set of all unsigned 16-bit integers (0 to 65535)
+    >
+    > `uint32` — the set of all unsigned 32-bit integers (0 to 4294967295)
+    >
+    > `uint64` — the set of all unsigned 64-bit integers (0 to 18446744073709551615)
+    >
+    > `int8` — the set of all signed 8-bit integers (-128 to 127)
+    >
+    > `int16` — the set of all signed 16-bit integers (-32768 to 32767)
+    >
+    > `int32` — the set of all signed 32-bit integers (-2147483648 to 2147483647)
+    >
+    > `int64` — the set of all signed 64-bit integers (-9223372036854775808 to 9223372036854775807)
+    >
+    > `float32` — the set of all IEEE-754 32-bit floating-point numbers
+    >
+    > `float64` — the set of all IEEE-754 64-bit floating-point numbers
+    >
+    > `complex64` — the set of all complex numbers with float32 real and imaginary parts
+    >
+    > `complex128` — the set of all complex numbers with float64 real and imaginary parts
+    >
+    > `byte` — alias for uint8 
+    >
+    > `rune` — alias for int32
+
 - A string type represents the set of string values. A string value is a (possibly empty) sequence of bytes. Strings are immutable: once created, it is impossible to change the contents of a string. The predeclared string type is `string`.
 - An error type is a primitive (or predeclared) type that is defined as [[2]](https://golang.org/ref/spec#Errors)
       type error interface { Error() string }
@@ -121,6 +123,7 @@ In addition to the primitive (or predeclared) types specified above, Go supports
 - An array is a numbered sequence of elements of a single type, called the element type. The number of elements is called the length and is never negative. An array's length is part of its type, so arrays cannot be resized. 
   Array is a Mapping in Go from the integer indices to its values. 
   Below is an example of array from the official tutorial guide of Go [[2]](https://tour.golang.org/moretypes/6):
+
   ```go
   // To compile and run: go run arrays.go
   package main
@@ -141,8 +144,10 @@ In addition to the primitive (or predeclared) types specified above, Go supports
   [Hello World]
   [2 3 5 7 11 13]
   ```
+  
 - A slice is a descriptor for a contiguous segment of an underlying array and provides access to a numbered sequence of elements from that array. A slice type denotes the set of all slices of arrays of its element type. The value of an uninitialized slice is `nil`. Unlike arrays, slices are dynamically sized, and thus are much more common than arrays in practice. Slices are like references to arrays, so changing the elements of a slice modifies the corresponding elements of its underlying array.
   Below is an example of slice from the official tutorial guide of Go [[3]](https://tour.golang.org/moretypes/8): 
+  
   ```go
   // To compile and run: go run slices.go
   package main
@@ -165,9 +170,11 @@ In addition to the primitive (or predeclared) types specified above, Go supports
   [John XXX] [XXX George]
   [John XXX George Ringo]
   ```
+  
 - A struct is a sequence of named elements, called fields, each of which has a name and a type. Struct fields are accessed using a dot.
   Struct is a Cartesian Product in Go.
   Below is an example of struct from the official tutorial guide of Go [[4]](https://tour.golang.org/moretypes/3):
+  
   ```go
   // To compile and run: go run structs.go
   package main
@@ -188,8 +195,10 @@ In addition to the primitive (or predeclared) types specified above, Go supports
   {1 2}
   4
   ```
+  
 - A pointer type denotes the set of all pointers to variables of a given type, called the base type of the pointer. The value of an uninitialized pointer is `nil`. The `&` operator generates a pointer to its operand. The `*` operator denotes the pointer's underlying value.
   Below is an example of pointer from the official tutorial guide of Go [[5]](https://tour.golang.org/moretypes/1):
+  
   ```go
   // To compile and run: go run pointers.go
   package main
@@ -211,9 +220,11 @@ In addition to the primitive (or predeclared) types specified above, Go supports
   21
   73
   ```
+  
 - A function type denotes the set of all functions with the same parameter and result types. The value of an uninitialized variable of function type is `nil`.
   Function is a Mapping in Go.
   Below is an example of function from the official tutorial guide of Go [[6]](https://tour.golang.org/basics/4):
+  
   ```go
   // To compile and run: go run functions.go
   package main
@@ -227,8 +238,10 @@ In addition to the primitive (or predeclared) types specified above, Go supports
   ```
   55
   ```
+  
 - An interface type specifies a method set called its interface. A variable of interface type can store a value of any type with a method set that is any superset of the interface. Such a type is said to implement the interface. The value of an uninitialized variable of interface type is `nil`.
   Below is an example of interface from the official tutorial guide of Go [7]:
+  
   ```go
   // To compile and run: go run interfaces.go
   package main
@@ -249,8 +262,10 @@ In addition to the primitive (or predeclared) types specified above, Go supports
   ```
   hello
   ```
+  
 - A map is an unordered group of elements of one type, called the element type, indexed by a set of unique *keys*of another type, called the key type. The value of an uninitialized map is `nil`. Map in Go is similar to dictionary in Python.
   Below is an example of map from the official tutorial guide of Go [[8]](https://tour.golang.org/moretypes/19):
+  
   ```go
   // To compile and run: go run maps.go
   package main
@@ -269,8 +284,10 @@ In addition to the primitive (or predeclared) types specified above, Go supports
   ```
   {40.68433 -74.39967}
   ```
+  
 - A channel provides a mechanism for concurrently executing functions to communicate by sending and receiving values of a specified element type. The value of an uninitialized channel is `nil`.
   Below is an example of channel from the official tutorial guide of Go [[9]](https://tour.golang.org/concurrency/2):
+  
   ```go
   // To compile and run: go run channels.go
   package main
