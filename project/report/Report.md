@@ -16,7 +16,7 @@ func main() {
 ```
 
 ## Paradigms
-Go is an imperative procedural programming language with some support for object-oriented features. It has states (local variables), loops, and return statements which makes it an imperative language. It also relies on functions and thus it is procedural. Go has types and methods and allows an object- oriented style of programming, but there is no type hierarchy. The concept of “interface” in Go is a more general approach than inheritance. Go also has “structs” (similar to the concept of “classes”), and methods can be defined for any sort of data not restricted to structs.
+Go is an imperative procedural programming language with some support for object-oriented features. It has states (local variables), loops, and return statements which makes it an imperative language. It also relies on functions and thus it is procedural. Go has types and methods and allows an object-oriented style of programming, but there is no type hierarchy. The concept of “interface” in Go is a more general approach than inheritance. Go also has “structs” (similar to the concept of “classes”), and methods can be defined for any sort of data not restricted to structs.
 
 - The Go Programming Language Specification (https://golang.org/ref/spec)
 - The Go Programming Language FAQ (https://golang.org/doc/faq)
@@ -24,7 +24,7 @@ Go is an imperative procedural programming language with some support for object
 ## Background
 
 As stated in the official FAQ site of Go [[1]](https://golang.org/doc/faq#Origins), the language was started on September 21, 2007 by three researchers at Google — Robert Griesemer, Rob Pike and Ken Thompson. Go became a public open source project on November 10, 2009. Many people from the community have contributed ideas, discussions, and code. Go is a compiled language [[2]](https://golang.org/doc/). The purpose of this language is to combine the ease of programming of an interpreted, dynamically typed language with the efficiency and safety of a statically typed, compiled language.
-Looking at the job market, several Go programs deployed in production inside Google. Some companies that are currently using Go are: BuzzFeed, Comcast, Dell, Docker, Dropbox, Ebay, Facebook, iBM, Lyft, Medium, Mozilla, Netflix, Oracle, Pinterest, Reddit, Slack, Twitter, Uber, VMWare. A full list of companies can be accessed here [[3]](https://github.com/golang/go/wiki/GoUsers).
+Looking at the job market, there are several Go programs deployed in production inside Google. Some companies that are currently using Go are: BuzzFeed, Comcast, Dell, Docker, Dropbox, Ebay, Facebook, iBM, Lyft, Medium, Mozilla, Netflix, Oracle, Pinterest, Reddit, Slack, Twitter, Uber, VMWare. A full list of companies can be accessed here [[3]](https://github.com/golang/go/wiki/GoUsers).
 
 [1] https://golang.org/doc/faq#Origins (The Go Programming Language FAQ — Origins)
 
@@ -284,7 +284,7 @@ In addition to the primitive (or predeclared) types specified above, Go supports
   hello
   ```
   
-- A map is an unordered group of elements of one type, called the element type, indexed by a set of unique *keys*of another type, called the key type. The value of an uninitialized map is `nil`. Map in Go is similar to dictionary in Python.
+- A map is an unordered group of elements of one type, called the element type, indexed by a set of unique keys of another type, called the key type. The value of an uninitialized map is `nil`. Map in Go is similar to dictionary in Python.
   Below is an example of map from the official tutorial guide of Go [[8]](https://tour.golang.org/moretypes/19):
   
   ```go
@@ -510,7 +510,7 @@ It turns out that Go treated characters as its ASCII value when doing non sense 
 
 ## String Type and Operations on Strings
 
-As stated in the Go Programming Language Specification [[1]](https://golang.org/ref/spec#String_types), string is a primitive (defined) type in Go. As mentioned in the primitive types section earlier, string in Go is a sequence of bytes (thus not null-terminated), and is immutable. 
+As stated in the Go Programming Language Specification [[1]](https://golang.org/ref/spec#String_types), string is a primitive (predeclared) type in Go. As mentioned in the primitive types section earlier, string in Go is a sequence of bytes (thus not null-terminated), and is immutable. 
 The length of a string `s` (its size in bytes) can be discovered using the built-in function `len`. The length is a compile-time constant if the string is a constant. A string's bytes can be accessed by integer indices 0 through `len(s)-1`. It is illegal to take the address of such an element; if `s[i]` is the `i`'th byte of a string, `&s[i]` is invalid. Other methods and operations for strings is provided in the documentation of the strings package [[2]](https://golang.org/pkg/strings/).
 Here is an example showing math operations on strings:
 ```go
@@ -567,7 +567,7 @@ The output should be the same as the following:
 ```
 [1] https://golang.org/ref/spec#Operator_precedence (The Go Programming Language Specification/Operator Precedence)
 
-## Fix Operators (No Prefix)
+## Fix Operators
 
 As stated in the official FAQ site of Go [[1]](https://golang.org/doc/faq#inc_dec), the `++` and `--` operators form statements instead of expressions. Only postfix increment/decrement operators are allowed, no prefix. 
 Here is an example showing the above concepts:
@@ -649,7 +649,7 @@ x in main is now 1
 
 ## Function Parameters Evaluation Order — Left to Right
 
-As stated in the Go Programming Language Specification [[1]](https://golang.org/ref/spec#Order_of_evaluation), at package level, initialization dependencies determine the evaluation order of individual initialization expressions in [v](https://golang.org/ref/spec#Variable_declarations)ariable declarations. Otherwise, when evaluating the operands of an expression, assignment, or return statement, all function calls, method calls, and communication operations are evaluated in lexical left-to-right order.
+As stated in the Go Programming Language Specification [[1]](https://golang.org/ref/spec#Order_of_evaluation), at package level, initialization dependencies determine the evaluation order of individual initialization expressions in variable declarations. Otherwise, when evaluating the operands of an expression, assignment, or return statement, all function calls, method calls, and communication operations are evaluated in lexical left-to-right order.
 Here is an example showing the evaluation order:
 ```go
 // To compile and run: go run evalOrder.go
@@ -780,7 +780,7 @@ interpreted_string_lit = `"` { unicode_value | byte_value } `"` .
 As stated in the Go Programming Language Specification [[1]](https://golang.org/ref/spec#Comments), there are two forms of comments in Go:
 
 - Line comments start with the character sequence `//` and stop at the end of the line.
-- General comments start with the character sequence `/*` and stop with the first subsequent character sequence **`**/*`.
+- General comments start with the character sequence `/*` and stop with the first subsequent character sequence `*/`.
 
 Here is an example of the two forms of comments:
 ```go
@@ -896,7 +896,7 @@ Higher order function
 
 Go has a garbage collector. As stated in the official FAQ site of Go [[1]](https://golang.org/doc/faq#garbage_collection), concurrency is built into Go, and automatic garbage collection makes concurrent code far easier to write. Implementing garbage collection in a concurrent environment is itself a challenge, but meeting it once rather than in every program helps everyone. The current GC implementation is a parallel mark-and-sweep collector. 
 The garbage collector can be triggered manually, but it blocks the caller (or even the entire program) until the garbage collection is complete [[2]](https://golang.org/pkg/runtime/#GC).
-Here is an example of triggering GC using the runtime builtin library:
+Here is an example of triggering GC using the built-in runtime library:
 ```go
 // To compile and run: go run garbageCollector.go
 package main
@@ -922,7 +922,7 @@ Garbage collect finished
 ## Concurrent Programming
 
 As stated in the Go Programming Language Specification [[1]](https://golang.org/ref/spec#Introduction), Go has explicit support for concurrent programming. A "go" statement starts the execution of a function call as an independent concurrent thread of control, or goroutine, within the same address space [[2]](https://golang.org/ref/spec#Go_statements). A channel provides a mechanism for the goroutines to communicate by sending and receiving values of a specified element type [[3]](https://golang.org/ref/spec#Channel_types).
-Here is an example showing how to use channels and coroutines to execute multiple tasks concurrently:
+Here is an example showing how to use channels and goroutines to execute multiple tasks concurrently:
 ```go
 // To compile and run: go run concurrency.go
 package main
